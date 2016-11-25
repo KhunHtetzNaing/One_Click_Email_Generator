@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <doclet-version-NOT-library-version>1.00</doclet-version-NOT-library-version>
+    <class>
+        <name>com.maximus.id.id</name>
+        <shortname>id</shortname>
+        <owner>activity</owner>
+        <method>
+            <name>InputList1</name>
+            <comment></comment>
+            <returntype>int</returntype>
+            <parameter>
+                <name>Items</name>
+                <type>anywheresoftware.b4a.objects.collections.List</type>
+            </parameter>
+            <parameter>
+                <name>Title</name>
+                <type>java.lang.String</type>
+            </parameter>
+            <parameter>
+                <name>ba</name>
+                <type>anywheresoftware.b4a.BA</type>
+            </parameter>
+        </method>
+    </class>
+    <version>1.0</version>
+    <author>Maximus</author>
+</root>

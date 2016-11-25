@@ -1,0 +1,207 @@
+﻿Version=6.3
+NumberOfModules=0
+Build1=Default,com.htetznaing.tempmail
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~'AdMob~\n~AddApplicationText(~\n~<meta-data android:name="com.google.android.gms.version"~\n~  android:value="@integer/google_play_services_version"/>~\n~<activity android:name="com.google.android.gms.ads.AdActivity"~\n~  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>~\n~~\n~)~\n~'End of AdMob
+IconFile=
+NumberOfFiles=3
+File1=icon.png
+File2=Lay1.bal
+File3=share.png
+NumberOfLibraries=10
+Library1=core
+Library2=floatingactionbutton
+Library3=webviewsettings
+Library4=xmllayoutbuilder
+Library5=webviewxtended
+Library6=admob
+Library7=mwadmobinterstitial2
+Library8=phone
+Library9=id
+Library10=clipboard
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: One Click Email Generator
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+	#AdditionalRes: C:\Users\COM99\AppData\Local\Android\sdk\extras\google\google-play-services\libproject\google-play-services_lib\res, com.google.android.gms
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+	#AdditionalRes: C:\Users\COM99\Documents\B4A Projects\Temp Mail\FloatingButton, de.amberhome.objects.floatingactionbutton
+	#AdditionalRes: ..\resource
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.
+	Dim t As Timer
+	Dim Theme_Value As Int
+End Sub
+
+Sub Globals
+	Dim wv As WebView
+	Dim fb As FloatingActionButton
+	Dim wv2 As WebViewSettings
+	Dim res As XmlLayoutBuilder
+	Dim Banner As AdView
+	Dim Interstitial As mwAdmobInterstitial
+	Dim p As Phone
+	Dim lis As List
+	Dim idd As id
+	dim idd_int as Int
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	Activity.LoadLayout("Lay1")
+
+	fb.Icon = res.GetDrawable("ic_add_white_24dp")
+
+	fb.HideOffset = 100%y - fb.Top
+	fb.Hide(False)
+	fb.Show(True)
+	
+	wv.Initialize("wv")
+	wv.LoadUrl("https://temp-mail.org/en/")
+
+	Activity.AddView(wv,0%x,0%y,100%x,100%y)
+	wv2.setDisplayZoomControls(wv,False)
+	
+	If p.SdkVersion > 19 Then
+	Banner.Initialize("Banner","ca-app-pub-4173348573252986/4516814152")
+	Banner.LoadAd
+	Activity.AddView(Banner,0%x,0%y,100%x,10%y)
+	
+	Interstitial.Initialize("Interstitial","ca-app-pub-4173348573252986/5993547358")
+	Interstitial.LoadAd
+	Else
+		End If
+	
+Activity.AddMenuItem("Refresh","rf")
+Activity.AddMenuItem("Clear","cl")
+Activity.AddMenuItem("Stop Showing Ads!","rad")
+Activity.AddMenuItem("Change Theme","ct")
+Activity.AddMenuItem3("Share This App","share",LoadBitmap(File.DirAssets,"share.png"),True)
+
+t.Initialize("t",30000)
+t.Enabled = True
+End Sub
+
+Sub share_Click
+Dim ShareIt As Intent
+Dim copy As BClipboard
+copy.clrText
+copy.setText("#One_Click_Email_Generator! Do You Like This App? So, Please Share!!! This Is www.temp-mail.org Android App! Temp Mail service Is Not just a one-off designed project. Temp Mail has ambitious plans To further improve its service. We strive For the ideal in order To achieve As close As possible perfection. Your suggestions And comments are very useful. We take everything into account And implement useful suggestions into standard practice. Do you like our anonymous e-mail service? You can suggest our service To other users in a reviews. If you can think of ways To assist us To achieve perfection, your comments will allow our joint efforts To make the service more convenient, user friendly, And meet the needs of other users requiring a temporary email address.We invite you To help us To improve our services. We offer you the most secure anonymous email And most comfortable user interface. Download Free at Google Play Store: https://play.google.com/store/apps/details?id=com.htetznaing.tempmail")
+    ShareIt.Initialize (ShareIt.ACTION_SEND,"")
+    ShareIt.SetType ("text/plain")
+    ShareIt.PutExtra ("android.intent.extra.TEXT",copy.getText)
+    ShareIt.PutExtra ("android.intent.extra.SUBJECT","#One_Click_Email_Generator!")
+    ShareIt.WrapAsIntentChooser("Share App Via...")
+StartActivity (ShareIt)
+End Sub
+
+Sub ct_Click
+	lis.Initialize
+	lis.AddAll(Array As String("Holo","Holo Light","Holo Light Dark","Old Android","Material","Material Light","Material Light Dark","Transparent","Transparent No Title Bar"))
+	idd_int = idd.InputList1(lis,"Choose Themes!")
+	If idd_int = 0 Then
+		SetTheme(res.GetResourceId("style", "android:style/Theme.Holo"))
+	End If
+	
+	If idd_int = 1 Then
+		SetTheme(res.GetResourceId("style", "android:style/Theme.Holo.Light"))
+	End If
+	
+	If idd_int = 2 Then
+		SetTheme(res.GetResourceId("style", "android:style/Theme.Holo.Light.DarkActionBar"))
+	End If
+	
+	If idd_int = 3 Then
+		SetTheme(16973829)
+	End If
+	
+	If idd_int = 4 Then
+		SetTheme(res.GetResourceId("style", "android:style/Theme.Material"))
+	End If
+	
+	If idd_int = 5 Then
+		SetTheme(res.GetResourceId("style", "android:style/Theme.Material.Light"))
+	End If
+	
+	If idd_int = 6 Then
+		SetTheme(res.GetResourceId("style", "android:style/Theme.Material.Light.DarkActionBar"))
+	End If
+	
+If idd_int = 7 Then
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Translucent"))
+End If
+
+If idd_int = 8 Then
+	SetTheme(res.GetResourceId("style", "android:style/Theme.Translucent.NoTitleBar"))
+End If
+
+End Sub
+
+Private Sub SetTheme (Theme As Int)
+	If Theme = 0 Then
+		ToastMessageShow("Theme not available.", False)
+		Return
+	End If
+	If Theme = Theme_Value Then Return
+	Theme_Value = Theme		
+	Activity.Finish
+	StartActivity(Me)		
+End Sub
+
+
+#if java
+public void _onCreate() {
+	if (_theme_value != 0)
+		setTheme(_theme_value);
+}
+#end if
+
+
+Sub rf_Click
+	Activity.Finish
+	StartActivity(Me)
+End Sub
+Sub rad_Click
+	t.Enabled = False
+End Sub
+
+Sub t_Tick
+	If p.SdkVersion > 19 Then
+	If Interstitial.Status=Interstitial.Status_AdReadyToShow Then
+	Interstitial.Show
+	End If
+	
+	If Interstitial.Status=Interstitial.Status_Dismissed Then
+	Interstitial.LoadAd
+	End If
+	Else
+		End If
+End Sub
+
+Sub cl_Click
+Dim wvx As WebViewXtender
+wvx.clearCache(wv,True)
+Activity.Finish
+StartActivity(Me)
+End Sub
+
+Sub fb_Click
+	wv.LoadUrl("https://temp-mail.org/en/option/change")
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
